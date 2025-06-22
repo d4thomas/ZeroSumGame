@@ -17,7 +17,7 @@ public interface Game<A> {
 
     /**
      * Computes the utility of the current game state.
-     * This value is used by minimax to evaluate terminal states.
+     * Minimax uses this value to evaluate terminal states.
      *
      * @return an integer utility value: higher means better for the MAX player
      */
@@ -33,18 +33,18 @@ public interface Game<A> {
     /**
      * Applies the given move to the current game state.
      *
-     * @param move   the move to apply
-     * @param isMax  true if the move is by the MAX player,
-     *               false if by the MIN player
+     * @param move  the move to apply
+     * @param isMax true if the move is by the MAX player,
+     *              false if by the MIN player
      */
     void execute(A move, boolean isMax);
 
     /**
      * Undoes a previously applied move, restoring the previous game state.
      *
-     * @param move   the move to undo
-     * @param isMax  true if the move was by the MAX player
-     *               false if by the MIN player
+     * @param move  the move to undo
+     * @param isMax true if the move was by the MAX player
+     *              false if by the MIN player
      */
     void undo(A move, boolean isMax);
 
@@ -52,10 +52,10 @@ public interface Game<A> {
      * Provides a heuristic estimate of the current game state's favorability
      * when the game is not in a terminal state and the search is cut off
      * due to a depth limit.
-     *
+     * <p>
      * Positive values should indicate that the state favors the MAX player (X),
      * and negative values should indicate that the state favors the MIN player (O).
-     *
+     * <p>
      * This method is called when minimax search reaches the maximum allowed depth
      * and must estimate the utility of a non-terminal game state.
      *
@@ -66,10 +66,10 @@ public interface Game<A> {
     /**
      * Provides a quick, tactical move based on simple heuristics,
      * without performing a full minimax search.
-     *
+     * <p>
      * This method is typically used when depth-limited search is not applied,
      * or as a fallback for faster decision-making in time-constrained situations.
-     *
+     * <p>
      * It returns a move that is likely to improve the player's position,
      * such as completing a winning line or blocking an opponent's winning move.
      *

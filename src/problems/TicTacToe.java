@@ -4,25 +4,25 @@ import java.util.*;
 
 /**
  * Represents a generalized Tic-Tac-Toe game of any board size.
- *
+ * <p>
  * Assumptions:
  * - 'X' is the MAX player (human)
  * - 'O' is the MIN player (AI)
  * - Board size is smaller than 100
  */
-public class TicTacToe implements Game<Square>{
+public class TicTacToe implements Game<Square> {
 
     // Board size, (e.g., 3 for a 3x3 board)
     private final int BOARD_SIZE;
 
     // Internal board representation: maps each occupied square to a mark (X or O)
-    // Note: the map only contains *marked* squares.
-    private final Map<Square,Mark> board;
+    // Note: The map only contains *marked* squares
+    private final Map<Square, Mark> board;
 
-    //utility value for winning the game from MAX player's perspective
+    // Utility value for winning the game from MAX player's perspective
     private final int WIN;
 
-    //utility value for losing the game from MAX player's perspective
+    // Utility value for losing the game from MAX player's perspective
     // (this is equivalent to MIN player winning the game)
     private final int LOSS;
 
@@ -33,7 +33,7 @@ public class TicTacToe implements Game<Square>{
         this.BOARD_SIZE = size;
         this.board = new HashMap<>();
         WIN = 100 * BOARD_SIZE;
-        LOSS = - WIN;
+        LOSS = -WIN;
         positionWeight = new int[BOARD_SIZE][BOARD_SIZE];
         // Higher weights for center and near-center positions
         int mid = BOARD_SIZE / 2;
@@ -49,16 +49,15 @@ public class TicTacToe implements Game<Square>{
      * Computes the utility of the current game state.
      *
      * @return WIN if X player wins,
-     *         LOSE if O player wins,
-     *         0 otherwise (draw or unfinished game)
+     * LOSE if O player wins,
+     * 0 otherwise (draw or unfinished game)
      */
-    public int utility(){
-        //check rows
-        for(int row=0; row<BOARD_SIZE; row++) {
+    public int utility() {
+        // Check rows
+        for (int row = 0; row < BOARD_SIZE; row++) {
             int rowSum = 0;
-            for (int col = 0; col<BOARD_SIZE; col++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
                 Square square = new Square(row, col);
-                //When comparing enum values in Java, always use ==, not equals()
                 if (board.containsKey(square)) {
                     if (board.get(square) == Mark.X) {
                         rowSum++;
@@ -69,14 +68,14 @@ public class TicTacToe implements Game<Square>{
             }
             if (rowSum == BOARD_SIZE) {
                 return WIN;
-            } else if (rowSum == - BOARD_SIZE) {
+            } else if (rowSum == -BOARD_SIZE) {
                 return LOSS;
             }
         }
-        //check columns
-        for(int col=0; col<BOARD_SIZE; col++) {
+        // Check columns
+        for (int col = 0; col < BOARD_SIZE; col++) {
             int colSum = 0;
-            for (int row = 0; row<BOARD_SIZE; row++) {
+            for (int row = 0; row < BOARD_SIZE; row++) {
                 Square square = new Square(row, col);
                 if (board.containsKey(square)) {
                     if (board.get(square) == Mark.X) {
@@ -88,13 +87,13 @@ public class TicTacToe implements Game<Square>{
             }
             if (colSum == BOARD_SIZE) {
                 return WIN;
-            } else if (colSum == - BOARD_SIZE) {
+            } else if (colSum == -BOARD_SIZE) {
                 return LOSS;
             }
         }
-        //check diagonal -- top left to bottom right
+        // Check diagonal (top left to bottom right)
         int diaSum = 0;
-        for(int d=0; d<BOARD_SIZE; d++) {
+        for (int d = 0; d < BOARD_SIZE; d++) {
             Square square = new Square(d, d);
             if (board.containsKey(square)) {
                 if (board.get(square) == Mark.X) {
@@ -106,12 +105,12 @@ public class TicTacToe implements Game<Square>{
         }
         if (diaSum == BOARD_SIZE) {
             return WIN;
-        } else if (diaSum == - BOARD_SIZE) {
+        } else if (diaSum == -BOARD_SIZE) {
             return LOSS;
         }
-        //check diagonal -- top right to bottom left
+        // Check diagonal (top right to bottom left)
         diaSum = 0;
-        for(int d=0; d<BOARD_SIZE; d++) {
+        for (int d = 0; d < BOARD_SIZE; d++) {
             Square square = new Square(d, BOARD_SIZE - 1 - d);
             if (board.containsKey(square)) {
                 if (board.get(square) == Mark.X) {
@@ -123,10 +122,10 @@ public class TicTacToe implements Game<Square>{
         }
         if (diaSum == BOARD_SIZE) {
             return WIN;
-        } else if (diaSum == - BOARD_SIZE) {
+        } else if (diaSum == -BOARD_SIZE) {
             return LOSS;
         }
-        //no one has won yet; either a draw, or unfinished
+        // No one has won yet; either a draw or unfinished
         return 0;
     }
 
@@ -134,15 +133,15 @@ public class TicTacToe implements Game<Square>{
      * Checks if the current state is terminal.
      *
      * @return true if a player has won or the board is full (draw),
-     *         false otherwise
+     * false otherwise
      */
-    public boolean isTerminal(){
+    public boolean isTerminal() {
         int utility = utility();
-        //A player has won the game.
-        if (utility == WIN || utility == LOSS){
+        // A player has won the game
+        if (utility == WIN || utility == LOSS) {
             return true;
         }
-        //Game is either a draw (return true) or unfinished (return false)
+        // Game is either a draw (return true) or unfinished (return false)
         return (board.size() == BOARD_SIZE * BOARD_SIZE);
     }
 
@@ -153,11 +152,10 @@ public class TicTacToe implements Game<Square>{
      * @param isMax true if it's the MAX player's move (X),
      *              false for MIN (O)
      */
-    public void execute(Square move, boolean isMax){
-        if(isMax) {
+    public void execute(Square move, boolean isMax) {
+        if (isMax) {
             board.put(move, Mark.X);
-        }
-        else{
+        } else {
             board.put(move, Mark.O);
         }
     }
@@ -169,7 +167,7 @@ public class TicTacToe implements Game<Square>{
      * @param isMax true if the move was by the MAX player
      *              false if by the MIN player
      */
-    public void undo(Square move, boolean isMax){
+    public void undo(Square move, boolean isMax) {
         board.remove(move);
     }
 
@@ -178,12 +176,12 @@ public class TicTacToe implements Game<Square>{
      *
      * @return a list of all empty squares
      */
-    public List<Square> getAllRemainingMoves(){
+    public List<Square> getAllRemainingMoves() {
         List<Square> result = new ArrayList<>();
-        for(int row=0; row<BOARD_SIZE; row++){
-            for(int col=0; col<BOARD_SIZE; col++){
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
                 Square square = new Square(row, col);
-                if(!board.containsKey(square)) {
+                if (!board.containsKey(square)) {
                     //this square is not marked
                     result.add(square);
                 }
@@ -197,9 +195,9 @@ public class TicTacToe implements Game<Square>{
      *
      * @param square the square to check
      * @return true if the square has been marked,
-     *         false if it's still empty
+     * false if it's still empty
      */
-    public boolean markedSquare(Square square){
+    public boolean markedSquare(Square square) {
         return board.containsKey(square);
     }
 
@@ -207,17 +205,16 @@ public class TicTacToe implements Game<Square>{
      * Scores a line (row, column, or diagonal) based on how many Xs or Os it contains.
      * Only unblocked lines are scored. More marks result in higher return values, as
      * follows:
-     *  - 1 mark: 100
-     *  - 2 marks: 200
-     *  - 3 marks: 300
-     *  - etc.
-     *  Note that, any blocked line always returns a zero; X scores are positive,
-     *  O scores are negative.
+     *   1 mark: 100
+     *   2 marks: 200
+     *   3 marks: 300, ... etc.
+     * Note that any blocked line always returns a zero; X scores are positive,
+     * O scores are negative.
      *
      * @param line a list of squares representing a line on the board
      * @return a positive score if the line favors X,
-     *         negative if it favors O,
-     *         0 if blocked
+     * negative if it favors O,
+     * 0 if blocked
      */
     private int scoreLine(List<Square> line) {
         int xCount = 0;
@@ -228,28 +225,28 @@ public class TicTacToe implements Game<Square>{
             Mark mark = board.get(square);
             if (mark == Mark.X) {
                 xCount++;
-            } else if (mark == Mark.O){
+            } else if (mark == Mark.O) {
                 oCount++;
             }
         }
-        // Blocked line: contains both X and O
-        if (xCount > 0 && oCount > 0){
+        // Blocked line: Contains both X and O
+        if (xCount > 0 && oCount > 0) {
             return 0;
         }
         int markCount = Math.max(xCount, oCount);
-        int score = markCount * 100; // 1 mark = 100, 2 marks = 200, etc.
+        int score = markCount * 100; // 1 mark = 100, 2 marks = 200, ... etc.
 
         return xCount > 0 ? score : -score;
     }
 
     /**
      * Heuristic evaluation of the current board state for non-terminal nodes.
-     *
+     * <p>
      * Returns a score that reflects which player has the strongest unblocked line.
      * Combines two components:
      * 1. Best unblocked line score for each player (X and O), scaled by number of marks × 100
      * 2. Positional influence based on static center-weighted bonus
-     *
+     * <p>
      * The heuristic always returns a value less than the win utility,
      * so it cannot outweigh an actual win.
      *
@@ -268,15 +265,15 @@ public class TicTacToe implements Game<Square>{
             }
             int rowScore = scoreLine(row);
             int colScore = scoreLine(col);
-            if (rowScore > 0){
+            if (rowScore > 0) {
                 bestXScore = Math.max(bestXScore, rowScore);
-            }else if (rowScore < 0){
+            } else if (rowScore < 0) {
                 bestOScore = Math.min(bestOScore, rowScore);
             }
 
-            if (colScore > 0){
+            if (colScore > 0) {
                 bestXScore = Math.max(bestXScore, colScore);
-            }else if(colScore < 0){
+            } else if (colScore < 0) {
                 bestOScore = Math.min(bestOScore, colScore);
             }
         }
@@ -289,25 +286,25 @@ public class TicTacToe implements Game<Square>{
         }
         int d1Score = scoreLine(diag1);
         int d2Score = scoreLine(diag2);
-        if (d1Score > 0){
+        if (d1Score > 0) {
             bestXScore = Math.max(bestXScore, d1Score);
-        }else if(d1Score < 0){
+        } else if (d1Score < 0) {
             bestOScore = Math.min(bestOScore, d1Score);
         }
-        if (d2Score > 0){
+        if (d2Score > 0) {
             bestXScore = Math.max(bestXScore, d2Score);
-        }else if(d2Score < 0){
+        } else if (d2Score < 0) {
             bestOScore = Math.min(bestOScore, d2Score);
         }
-        // Add positional bonus for center-weighted square control
+        // Add a positional bonus for center-weighted square control
         int positionalScore = 0;
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 Square sq = new Square(i, j);
                 Mark m = board.get(sq);
-                if (m == Mark.X){
+                if (m == Mark.X) {
                     positionalScore += positionWeight[i][j];
-                } else if (m == Mark.O){
+                } else if (m == Mark.O) {
                     positionalScore -= positionWeight[i][j];
                 }
             }
@@ -317,12 +314,12 @@ public class TicTacToe implements Game<Square>{
 
     /**
      * Returns an immediate tactical move if available:
-     * - Winning move for O if it exists
-     * - Winning move for X if it exists - O player needs to block
-     *   this move.
-     * - Otherwise returns null
-     *
-     * This avoids full minimax search when urgent threats exist.
+     *   Winning move for O if it exists
+     *   Winning move for X if it exists - O player needs to block
+     *     this move.
+     *   Otherwise returns null
+     * <p>
+     * This avoids a full minimax search when urgent threats exist.
      */
     public Square getTacticalMove() {
         Square oWinMove = findLineWithNMinus1(Mark.O); // O win
@@ -333,14 +330,13 @@ public class TicTacToe implements Game<Square>{
         if (xWinMove != null) {
             return xWinMove;
         }
-        return null; // no immediate tactic
+        return null; // No immediate tactic
     }
 
     /**
      * Searches for a line where the specified player (mark) has BOARD_SIZE−1
      * marks and one empty square. If found, returns the square to complete
-     * that line.
-     * This is Used to find immediate winning or blocking moves.
+     * that line. This is Used to find immediate winning or blocking moves.
      */
     private Square findLineWithNMinus1(Mark mark) {
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -363,7 +359,7 @@ public class TicTacToe implements Game<Square>{
             diag2.add(new Square(i, BOARD_SIZE - 1 - i));
         }
         Square d1Result = checkLineForNMinus1(diag1, mark);
-        if (d1Result != null){
+        if (d1Result != null) {
             return d1Result;
         }
         return checkLineForNMinus1(diag2, mark);
@@ -381,13 +377,13 @@ public class TicTacToe implements Game<Square>{
             if (m == mark) {
                 count++;
             } else if (m == null) {
-                if (empty == null){
+                if (empty == null) {
                     empty = sq;
-                } else{
-                    return null; // more than one empty
+                } else {
+                    return null; // More than one empty
                 }
             } else {
-                return null; // contains opponent mark
+                return null; // Contains opponent mark
             }
         }
         return (count == BOARD_SIZE - 1 && empty != null) ? empty : null;
@@ -405,38 +401,38 @@ public class TicTacToe implements Game<Square>{
         String RESET = "\u001B[0m";
         String RED = "\u001B[31m";
         String CYAN = "\u001B[36m";
-        String YELLOW = "\u001B[33m";  // Highlight color for last O move
-        //print column headers
+        String YELLOW = "\u001B[33m";  // Highlight color for the last O move
+        // Print column headers
         System.out.print("   ");
         for (int col = 0; col < BOARD_SIZE; col++) {
             System.out.print(" " + col + "  ");
         }
         System.out.println();
-        for(int i=0; i<BOARD_SIZE; i++){
+        for (int i = 0; i < BOARD_SIZE; i++) {
             // Print row number
             System.out.print(" " + i + " ");
-            //print each cell in the row
+            // Print each cell in the row
             for (int j = 0; j < BOARD_SIZE; j++) {
                 Square square = new Square(i, j);
                 if (board.containsKey(square)) {
-                    if(board.get(square)==Mark.X) {
-                        System.out.print(" " + CYAN+ board.get(square) + RESET + " ");
-                    }else{
-                        if(square.equals(newMove)){
+                    if (board.get(square) == Mark.X) {
+                        System.out.print(" " + CYAN + board.get(square) + RESET + " ");
+                    } else {
+                        if (square.equals(newMove)) {
                             System.out.print(" " + RED + board.get(square) + RESET + " ");
-                        }else {
+                        } else {
                             System.out.print(" " + YELLOW + board.get(square) + RESET + " ");
                         }
                     }
                 } else {
-                    System.out.print(" " + " "+" ");
+                    System.out.print(" " + " " + " ");
                 }
                 if (j < BOARD_SIZE - 1) {
                     System.out.print("|");
                 }
             }
             System.out.println();
-            //print separator line between rows
+            // Print separator line between rows
             if (i < BOARD_SIZE - 1) {
                 System.out.print("   ");
                 for (int j = 0; j < BOARD_SIZE; j++) {

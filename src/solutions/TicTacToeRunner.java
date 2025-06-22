@@ -9,19 +9,19 @@ import java.util.Scanner;
 
 /**
  * A console-based runner for playing Tic-Tac-Toe.
- *
+ *<p>
  * Assumptions:
- * - The human player is 'X' (MAX player)
- * - The AI is 'O' (MIN player)
+ *   The human player is 'X' (MAX player)
+ *   The AI is 'O' (MIN player)
  */
 public class TicTacToeRunner extends Minimax<Square> {
 
-    //The size of the board (e.g., 3 for 3x3 board)
+    // The size of the board (e.g., 3 for 3x3 board)
     private static final int BOARD_SIZE = 3;
     // Depth limit for minimax search:
-    // Higher values allow deeper lookahead but increase computation time.
+    // Higher values allow a deeper lookahead but increase computation time
     private static final int MAX_DEPTH = 5;
-    //Specifies the player who moves first:
+    // Specifies the player who moves first:
     // Mark.X = human, Mark.O = AI
     private Mark turn = Mark.O;
     // The game instance managing board state and rules
@@ -35,7 +35,7 @@ public class TicTacToeRunner extends Minimax<Square> {
     /**
      * Main loop to play the game. Alternates between human (X) and AI (O) turns
      * until the game reaches a terminal state.
-     * For each turn, the move is executed and the board is updated and displayed.
+     * For each turn, the move is executed, and the board is updated and displayed.
      */
     public void play() {
         if(turn==Mark.X){
@@ -61,11 +61,11 @@ public class TicTacToeRunner extends Minimax<Square> {
     /**
      * Prompts the human player to enter a move via the console.
      * Re-prompts until a valid move is provided.
-     *
+     * <p>
      * A valid move satisfies the following conditions:
-     * - The input includes two integers separated by space: a row and a column
-     * - The row and column are within the board bounds (i.e., 0 to BOARD_SIZE-1)
-     * - The selected square is currently unmarked
+     *   The input includes two integers separated by space: a row and a column
+     *   The row and column are within the board bounds (i.e., 0 to BOARD_SIZE-1)
+     *   The selected square is currently unmarked
      *
      * @return the valid square chosen by the human player
      */
@@ -93,7 +93,7 @@ public class TicTacToeRunner extends Minimax<Square> {
                 System.out.println("Invalid position, please try again.");
             }
         }
-        //Human player plays as X
+        // Human player plays as X
         return new Square(row,col);
     }
 
