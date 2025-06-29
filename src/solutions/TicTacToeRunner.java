@@ -9,10 +9,10 @@ import java.util.Scanner;
 
 /**
  * A console-based runner for playing Tic-Tac-Toe.
- *<p>
+ * <p>
  * Assumptions:
- *   The human player is 'X' (MAX player)
- *   The AI is 'O' (MIN player)
+ * The human player is 'X' (MAX player)
+ * The AI is 'O' (MIN player)
  */
 public class TicTacToeRunner extends Minimax<Square> {
 
@@ -38,17 +38,17 @@ public class TicTacToeRunner extends Minimax<Square> {
      * For each turn, the move is executed, and the board is updated and displayed.
      */
     public void play() {
-        if(turn==Mark.X){
+        if (turn == Mark.X) {
             game.printBoard(null);
         }
         while (!game.isTerminal()) {
             Square newMove = null;
-            if(turn == Mark.X) {
+            if (turn == Mark.X) {
                 game.execute(getUserMove(), true);
                 turn = Mark.O;
-            }else{
-                System.out.println("\nAI's turn: ("+"\u001B[31m"+"O"+
-                        "\u001B[0m"+" marks the most recent AI move)" );
+            } else {
+                System.out.println("\nAI's turn: (" + "\u001B[31m" + "O" +
+                        "\u001B[0m" + " marks the most recent AI move)");
                 newMove = minimaxSearch();
                 game.execute(newMove, false);
                 turn = Mark.X;
@@ -63,14 +63,14 @@ public class TicTacToeRunner extends Minimax<Square> {
      * Re-prompts until a valid move is provided.
      * <p>
      * A valid move satisfies the following conditions:
-     *   The input includes two integers separated by space: a row and a column
-     *   The row and column are within the board bounds (i.e., 0 to BOARD_SIZE-1)
-     *   The selected square is currently unmarked
+     * The input includes two integers separated by space: a row and a column
+     * The row and column are within the board bounds (i.e., 0 to BOARD_SIZE-1)
+     * The selected square is currently unmarked
      *
      * @return the valid square chosen by the human player
      */
     private Square getUserMove() {
-        int row=-1, col=-1;
+        int row = -1, col = -1;
         boolean validInput = false;
         Scanner scanner = new Scanner(System.in);
         while (!validInput) {
@@ -87,14 +87,14 @@ public class TicTacToeRunner extends Minimax<Square> {
                 scanner.next();
                 continue;
             }
-            if (isValidMove(row,col)) {
+            if (isValidMove(row, col)) {
                 validInput = true;
             } else {
                 System.out.println("Invalid position, please try again.");
             }
         }
         // Human player plays as X
-        return new Square(row,col);
+        return new Square(row, col);
     }
 
     /**
@@ -103,11 +103,11 @@ public class TicTacToeRunner extends Minimax<Square> {
      * @param row the row number of the square
      * @param col the column number of the square
      * @return true if the row # and the colum # are within the board bounds and unmarked,
-     *         false otherwise
+     * false otherwise
      */
     private boolean isValidMove(int row, int col) {
-        boolean isWithinBounds = (row>=0 && row<BOARD_SIZE && col>=0 && col<BOARD_SIZE);
-        return (isWithinBounds && !game.markedSquare(new Square(row,col)));
+        boolean isWithinBounds = (row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE);
+        return (isWithinBounds && !game.markedSquare(new Square(row, col)));
     }
 
     /**

@@ -6,9 +6,9 @@ import java.util.*;
  * Represents a generalized Tic-Tac-Toe game of any board size.
  * <p>
  * Assumptions:
- * - 'X' is the MAX player (human)
- * - 'O' is the MIN player (AI)
- * - Board size is smaller than 100
+ * 'X' is the MAX player (human)
+ * 'O' is the MIN player (AI)
+ * Board size is smaller than 100
  */
 public class TicTacToe implements Game<Square> {
 
@@ -205,9 +205,9 @@ public class TicTacToe implements Game<Square> {
      * Scores a line (row, column, or diagonal) based on how many Xs or Os it contains.
      * Only unblocked lines are scored. More marks result in higher return values, as
      * follows:
-     *   1 mark: 100
-     *   2 marks: 200
-     *   3 marks: 300, ... etc.
+     * 1 mark: 100
+     * 2 marks: 200
+     * 3 marks: 300, ... etc.
      * Note that any blocked line always returns a zero; X scores are positive,
      * O scores are negative.
      *
@@ -314,10 +314,10 @@ public class TicTacToe implements Game<Square> {
 
     /**
      * Returns an immediate tactical move if available:
-     *   Winning move for O if it exists
-     *   Winning move for X if it exists - O player needs to block
-     *     this move.
-     *   Otherwise returns null
+     * Winning move for O if it exists
+     * Winning move for X if it exists - O player needs to block
+     * this move.
+     * Otherwise, returns null
      * <p>
      * This avoids a full minimax search when urgent threats exist.
      */
