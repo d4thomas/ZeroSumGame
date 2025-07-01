@@ -63,9 +63,9 @@ public class TicTacToeRunner extends Minimax<Square> {
      * Re-prompts until a valid move is provided.
      * <p>
      * A valid move satisfies the following conditions:
-     * The input includes two integers separated by space: a row and a column
-     * The row and column are within the board bounds (i.e., 0 to BOARD_SIZE-1)
-     * The selected square is currently unmarked
+     *   The input includes two integers separated by space: a row and a column
+     *   The row and column are within the board bounds (i.e., 0 to BOARD_SIZE-1)
+     *   The selected square is currently unmarked
      *
      * @return the valid square chosen by the human player
      */
