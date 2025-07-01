@@ -125,7 +125,7 @@ public class Minimax<A> {
                     // MAX player will not allow this branch
                     return new ScoreAndPath<>(b.score, null);
                 } else if (b.score() < beta) {
-                    // Update the best score and move sequence if this move is better for MIN 
+                    // Update the best score and move sequence if this move is better for MIN
                     beta = b.score();
                     bestPath = b.pathOfMoves();
                     bestPath.addFirst(move);
