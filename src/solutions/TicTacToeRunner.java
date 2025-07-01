@@ -11,8 +11,8 @@ import java.util.Scanner;
  * A console-based runner for playing Tic-Tac-Toe.
  * <p>
  * Assumptions:
- * The human player is 'X' (MAX player)
- * The AI is 'O' (MIN player)
+ *   The human player is 'X' (MAX player)
+ *   The AI is 'O' (MIN player)
  */
 public class TicTacToeRunner extends Minimax<Square> {
 
