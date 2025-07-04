@@ -4,11 +4,10 @@ import java.util.*;
 
 /**
  * Represents a generalized Tic-Tac-Toe game of any board size.
- * <p>
  * Assumptions:
- * 'X' is the MAX player (human)
- * 'O' is the MIN player (AI)
- * Board size is smaller than 100
+ *      'X' is the MAX player (human)
+ *      'O' is the MIN player (AI)
+ *      Board size is smaller than 100
  */
 public class TicTacToe implements Game<Square> {
 
@@ -23,7 +22,6 @@ public class TicTacToe implements Game<Square> {
     private final int WIN;
 
     // Utility value for losing the game from MAX player's perspective
-    // (this is equivalent to MIN player winning the game)
     private final int LOSS;
 
     // Static weights that reward central square control (used in heuristic)
@@ -48,9 +46,8 @@ public class TicTacToe implements Game<Square> {
     /**
      * Computes the utility of the current game state.
      *
-     * @return WIN if X player wins,
-     * LOSE if O player wins,
-     * 0 otherwise (draw or unfinished game)
+     * @return WIN if X player wins, LOSE if O player
+     *         wins, 0 otherwise (draw or unfinished game)
      */
     public int utility() {
         // Check rows
@@ -108,7 +105,7 @@ public class TicTacToe implements Game<Square> {
         } else if (diaSum == -BOARD_SIZE) {
             return LOSS;
         }
-        // Check diagonal (top right to bottom left)
+        // Check diagonal (top right to the bottom left)
         diaSum = 0;
         for (int d = 0; d < BOARD_SIZE; d++) {
             Square square = new Square(d, BOARD_SIZE - 1 - d);
@@ -133,7 +130,7 @@ public class TicTacToe implements Game<Square> {
      * Checks if the current state is terminal.
      *
      * @return true if a player has won or the board is full (draw),
-     * false otherwise
+     *         false otherwise
      */
     public boolean isTerminal() {
         int utility = utility();
@@ -164,7 +161,7 @@ public class TicTacToe implements Game<Square> {
      * Undoes a previous move.
      *
      * @param move  the square to unmark
-     * @param isMax true if the move was by the MAX player
+     * @param isMax true if the move was by the MAX player,
      *              false if by the MIN player
      */
     public void undo(Square move, boolean isMax) {
@@ -182,7 +179,7 @@ public class TicTacToe implements Game<Square> {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 Square square = new Square(row, col);
                 if (!board.containsKey(square)) {
-                    //this square is not marked
+                    // This square is not marked
                     result.add(square);
                 }
             }
@@ -195,7 +192,7 @@ public class TicTacToe implements Game<Square> {
      *
      * @param square the square to check
      * @return true if the square has been marked,
-     * false if it's still empty
+     *         false if it's still empty
      */
     public boolean markedSquare(Square square) {
         return board.containsKey(square);
@@ -205,16 +202,16 @@ public class TicTacToe implements Game<Square> {
      * Scores a line (row, column, or diagonal) based on how many Xs or Os it contains.
      * Only unblocked lines are scored. More marks result in higher return values, as
      * follows:
-     * 1 mark: 100
-     * 2 marks: 200
-     * 3 marks: 300, ... etc.
+     *      1 mark: 100
+     *      2 marks: 200
+     *      3 marks: 300, ... etc.
      * Note that any blocked line always returns a zero; X scores are positive,
      * O scores are negative.
      *
      * @param line a list of squares representing a line on the board
      * @return a positive score if the line favors X,
-     * negative if it favors O,
-     * 0 if blocked
+     *         negative if it favors O,
+     *         0 if blocked
      */
     private int scoreLine(List<Square> line) {
         int xCount = 0;
@@ -241,14 +238,13 @@ public class TicTacToe implements Game<Square> {
 
     /**
      * Heuristic evaluation of the current board state for non-terminal nodes.
-     * <p>
      * Returns a score that reflects which player has the strongest unblocked line.
-     * Combines two components:
-     * 1. Best unblocked line score for each player (X and O), scaled by number of marks × 100
-     * 2. Positional influence based on static center-weighted bonus
-     * <p>
-     * The heuristic always returns a value less than the win utility,
-     * so it cannot outweigh an actual win.
+     * Combines two parts:
+     *      1. Best unblocked line score for each player (X and O), scaled by the
+     *      number of marks × 100
+     *      2. Positional influence based on static center-weighted bonus
+     * The heuristic always returns a value less than the win utility, so it cannot
+     * outweigh an actual win.
      *
      * @return positive result if X is favored, negative if O is favored
      */
@@ -313,13 +309,14 @@ public class TicTacToe implements Game<Square> {
     }
 
     /**
-     * Returns an immediate tactical move if available:
-     * Winning move for O if it exists
-     * Winning move for X if it exists - O player needs to block
-     * this move.
-     * Otherwise, returns null
-     * <p>
-     * This avoids a full minimax search when urgent threats exist.
+     * Identifies and returns a tactical move for the current player in a Tic-Tac-Toe game.
+     * A tactical move is defined as either:
+     *      A move that allows the current player (O) to win immediately, or
+     *      A move that blocks the opponent (X) from winning on their next turn.
+     * If no such tactical move exists, the method returns null.
+     *
+     * @return the square where the tactical move should be played if one exists,
+     *         or null if no tactical move is possible.
      */
     public Square getTacticalMove() {
         Square oWinMove = findLineWithNMinus1(Mark.O); // O win
@@ -334,9 +331,13 @@ public class TicTacToe implements Game<Square> {
     }
 
     /**
-     * Searches for a line where the specified player (mark) has BOARD_SIZE−1
-     * marks and one empty square. If found, returns the square to complete
-     * that line. This is Used to find immediate winning or blocking moves.
+     * Finds the square that completes a line with exactly BOARD_SIZE - 1 same marks
+     * and one empty square for the given player mark. It checks all rows, columns,
+     * and diagonals on the board.
+     *
+     * @param mark the player's mark to check for (X or O)
+     * @return the empty square that would complete a line if found,
+     *         or null if no such square exists
      */
     private Square findLineWithNMinus1(Mark mark) {
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -366,8 +367,14 @@ public class TicTacToe implements Game<Square> {
     }
 
     /**
-     * Returns the empty square in the given line if it contains exactly
-     * BOARD_SIZE−1 same marks and one empty; otherwise returns null.
+     * Checks a line (a row, column, or diagonal) to determine if it contains exactly
+     * BOARD_SIZE - 1 of the given player's marks and one empty square.
+     * If such a line is found, the empty square is returned; otherwise, null is returned.
+     *
+     * @param line a list of squares representing a line on the board
+     * @param mark the mark of the player (X or O) to check against
+     * @return the empty square that would complete the line for the given mark,
+     *         or null if no such line exists
      */
     private Square checkLineForNMinus1(List<Square> line, Mark mark) {
         int count = 0;

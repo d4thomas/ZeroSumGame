@@ -2,7 +2,6 @@ package problems;
 
 /**
  * Represents a square on a Tic-Tac-Toe board.
- * <p>
  * Note that Java automatically generates equals() and
  * hashCode() for records, making this class safe to use
  * as a key in hash-based data structures (e.g., HashMap)

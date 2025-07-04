@@ -7,10 +7,9 @@ import java.util.List;
 
 /**
  * Implements the Minimax algorithm with alpha-beta pruning and depth-limited search.
- * <p>
  * Assumption:
- * - Human is the MAX player (typically X)
- * - AI is the MIN player (typically O)
+ *      Human is the MAX player (typically X)
+ *      AI is the MIN player (typically O)
  *
  * @param <A> the type representing a move
  */
@@ -57,13 +56,20 @@ public class Minimax<A> {
     }
 
     /**
-     * MAX node in the minimax tree (trying to maximize the score).
-     * <p>
-     * Applies alpha-beta pruning to skip branches that cannot affect the outcome
-     * (i.e., branches that would not be allowed by the MIN player).
-     * <p>
-     * If the depth limit is reached, it uses the heuristic evaluation instead of
-     * continuing deeper.
+     * Computes the best possible score and corresponding path of moves for the MAX
+     * player using the minimax algorithm with alpha-beta pruning. This method is
+     * designed for exploring the MAX nodes of the minimax decision tree.
+     * If the game is in a terminal state, the utility function is used to compute
+     * the final score. If the maximum search depth is reached, it uses a heuristic
+     * evaluation to estimate the state's score. Otherwise, it recursively evaluates
+     * all possible moves for the MAX player, updating alpha, and pruning branches
+     * that cannot influence the outcome.
+     *
+     * @param alpha  the best score the MAX player is guaranteed to achieve
+     * @param beta   the best score the MIN player is guaranteed to achieve
+     * @param depth  the current depth in the search tree
+     * @return a ScoreAndPath object containing the best score and the path of moves
+     *         leading to it for the MAX player
      */
     public ScoreAndPath<A> max(int alpha, int beta, int depth) {
         if (game.isTerminal()) {
@@ -97,13 +103,20 @@ public class Minimax<A> {
     }
 
     /**
-     * MIN node in the minimax tree (trying to minimize the score).
-     * <p>
-     * Applies alpha-beta pruning to skip branches that cannot affect the outcome
-     * (i.e., branches that would not be allowed by the MAX player).
-     * <p>
-     * If the depth limit is reached, it uses the heuristic evaluation instead of
-     * continuing deeper.
+     * Computes the best possible score and corresponding path of moves for the MIN
+     * player using the minimax algorithm with alpha-beta pruning. This method is
+     * designed for exploring the MIN nodes of the minimax decision tree.
+     * If the game is in a terminal state, the utility function is used to compute
+     * the final score. If the maximum search depth is reached, it uses a heuristic
+     * evaluation to estimate the state's score. Otherwise, it recursively evaluates
+     * all possible moves for the MIN player, updating beta, and pruning branches
+     * that cannot influence the outcome.
+     *
+     * @param alpha  the best score the MAX player is guaranteed to achieve
+     * @param beta   the best score the MIN player is guaranteed to achieve
+     * @param depth  the current depth in the search tree
+     * @return a ScoreAndPath object containing the best score and the path of moves
+     *         leading to it for the MIN player
      */
     public ScoreAndPath<A> min(int alpha, int beta, int depth) {
         if (game.isTerminal()) {

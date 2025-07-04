@@ -49,17 +49,17 @@ public interface Game<A> {
     void undo(A move, boolean isMax);
 
     /**
-     * Provides a heuristic estimate of the current game state's favorability
-     * when the game is not in a terminal state and the search is cut off
-     * due to a depth limit.
-     * <p>
-     * Positive values should indicate that the state favors the MAX player (X),
-     * and negative values should indicate that the state favors the MIN player (O).
-     * <p>
-     * This method is called when minimax search reaches the maximum allowed depth
-     * and must estimate the utility of a non-terminal game state.
+     * Computes an estimated heuristic value of the current game state.
+     * This method provides a quick evaluation of the state for use
+     * in scenarios such as non-terminal states within depth-limited
+     * minimax algorithms or for guiding tactical decisions. The returned
+     * value is not guaranteed to represent the true utility of the state
+     * but serves as an approximation. A higher value typically signifies
+     * a better state for the MAX player, while a lower value signifies
+     * an advantage for the MIN player.
      *
-     * @return a heuristic evaluation score of the current state
+     * @return an integer representing the heuristic value of the current state,
+     *         higher values favor the MAX player, and lower values favor the MIN player
      */
     int heuristicEvaluation();
 
